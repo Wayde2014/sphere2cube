@@ -7,7 +7,7 @@ import os
 import sys
 import subprocess
 import math
-from version import __version__
+from .version import __version__
 
 
 def main():
@@ -38,9 +38,9 @@ def main():
                          help='enable verbose logging')
     _args = _parser.parse_args()
 
-    rotations = map(lambda x: math.radians(x), _args.rotation)
+    rotations = [math.radians(x) for x in _args.rotation]
 
-    if _args.threads and _args.threads not in range(1, 65):
+    if _args.threads and _args.threads not in list(range(1, 65)):
         _parser.print_usage()
         print('sphere2cube: error: too many threads specified (range is 1-64)')
         sys.exit(1)
@@ -79,10 +79,10 @@ def main():
                str(cam_fov)],
             stderr=subprocess.PIPE, stdout=out)
 
-        outdata, errdata = process.communicate()
+        _, stderr = process.communicate()
 
-        if errdata:
-            print('call blender error:\n %s' % errdata)
+        if stderr:
+            print('call blender error:\n %s' % stderr)
 
         if process.returncode:
             print('blender exited with error code %d' % process.returncode)
