@@ -82,7 +82,7 @@ def main():
         _, stderr = process.communicate()
 
         if stderr:
-            print('call blender error:\n %s' % stderr)
+            print('error invoking blender:\n %s' % stderr)
 
         if process.returncode:
             print('blender exited with error code %d' % process.returncode)
